@@ -26,7 +26,7 @@ class S3:
     def upload_files(self, id, file_paths, bucket):
         keys = []
         for file_path in file_paths:
-            filename = file_path.split("\\")[-1]
+            filename = os.path.basename(file_path)
             key = f"result/{id}/{filename}"
             self.upload_file(file_path, bucket, key)
             keys.append(key)
