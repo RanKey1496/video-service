@@ -1,0 +1,10 @@
+termcolor
+nats-py
+boto3
+python-dotenv
+moviepy
+Pillow==9.5.0
+assemblyai
+srt_equalizer
+ffmpeg-python
+srt
