@@ -49,7 +49,7 @@ class Main:
         [shutil.rmtree(os.path.dirname(file)) for file in [audio_path] + media_path if os.path.exists(file)]
         
         self._s3.upload_files(data['id'], [audio_mixed_path, subtitles_path_srt, subtitles_path_ass, output_path, result_path], get_s3_bucket())
-        await self._nats.publish("job.video.finished", json.dumps({ "id": data["id"], "result_path": result_path }).encode())
+        await self._nats.publish("job.video.finished", json.dumps({ "id": data["id"], "result": result_path }).encode())
         
         # Eliminar todos los archivos generados
         [shutil.rmtree(os.path.dirname(file)) for file in [audio_mixed_path, subtitles_path_srt, subtitles_path_ass, output_path, result_path]  if os.path.exists(file)]
