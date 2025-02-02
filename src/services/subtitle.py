@@ -28,10 +28,10 @@ class Subtitle:
             self.convert_srt_to_ass(result_path_srt, result_path_ass)
             print_success(f"Subtitulos convertidos en {result_path_ass}")
             
-            return result_path_srt,result_path_ass
+            return result_path_srt, result_path_ass
         except Exception as e:
             print_error(f"Error generating subtitles: {e}")
-            return None
+            return None, None
         
     def equalize_subtitle(self, srt_path, max_chars=10):
         srt_equalizer.equalize_srt_file(srt_path, srt_path, max_chars)

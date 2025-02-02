@@ -123,7 +123,10 @@ class Media:
             
             print_info(f"Combinando {len(clips)} clips...")
             video_concat = ffmpeg.concat(*[clip.video for clip in clips], v=1, a=0)
-            ffmpeg.output(video_concat.filter('subtitles', subtitles_path), output_path, loglevel='quiet').run(overwrite_output=True)
+            if (subtitles_path):
+                ffmpeg.output(video_concat.filter('subtitles', subtitles_path), output_path, loglevel='quiet').run(overwrite_output=True)
+            else:
+                ffmpeg.output(video_concat, output_path, loglevel='quiet').run(overwrite_output=True)
             print_success(f"Videos concatenados y subtitulos anadidos correctamente en: {output_path}")
             
             audio_clip = ffmpeg.input(audio_mixed_path).audio
