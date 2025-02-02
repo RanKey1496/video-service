@@ -33,6 +33,7 @@ class Main:
         
         clips_path = []
         
+        await self._nats.publish("job.video.result", json.dumps({ "id": data["id"], "status": "Creando clips" }).encode())
         for i in range(len(media_path)):
             output_clip = self._media.generate_random_clips_and_format(media_path[i], output_folder, 4, 5, 1)
             clips_path.extend(output_clip)
@@ -41,8 +42,11 @@ class Main:
         os.makedirs(result_folder, exist_ok=True)
         song_path = self._media.choose_random_song('songs')
         
+        await self._nats.publish("job.video.result", json.dumps({ "id": data["id"], "status": "Mezclando audios" }).encode())
         audio_mixed_path = self._media.mix_audios(audio_path, song_path, result_folder)
         subtitles_path_srt, subtitles_path_ass = self._subtitle.generate_subtitles(audio_mixed_path, result_folder)
+        
+        await self._nats.publish("job.video.result", json.dumps({ "id": data["id"], "status": "Combinando audio y video" }).encode())
         output_path, result_path = self._media.combine(clips_path, audio_mixed_path, subtitles_path_ass, result_folder)
         
         # Eliminar los archivos utilizados para generar el código final
